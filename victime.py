@@ -1,4 +1,5 @@
 import subprocess
+from subprocess import Popen, PIPE, STDOUT
 import socket
 import sys
 import time
@@ -44,7 +45,11 @@ class mytchatrecep(Thread):
                     print '\nRecu : "%s"' % data
                     #exec("data")
                     p = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE)
+                    #q = Popen(data, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
                     clientsocket.send(''.join([line for line in p.stdout.xreadlines()]))
+                    output = p.stdout
+                    #clientsocket.sendall(output)
+                    print output
                     #print action
 
 

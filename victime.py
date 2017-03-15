@@ -16,7 +16,7 @@ print clientsocket
 
 def testMessage(self):
     if self == '':
-        print "Contenu vide, ecrivez ^^ ! (facepalm)\n"
+        print "Contenu vide, ecrivez ^^ ! \n#FACEPALM\n"
     else:
         if self == 'exit':
             clientsocket.sendall(self)
@@ -43,13 +43,28 @@ class mytchatrecep(Thread):
                 #le 255 definit le nombre de caracteres envoye en une seule fois
                 if data != '':
                     print '\nRecu : "%s"' % data
-                    #exec("data")
-                    p = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE)
+                    p = Popen([data], stdin=PIPE, stdout=PIPE, bufsize=1)
+                    print p.stdout.readline(), # read the first line
+                    for i in range(10):
+                        print >>p.stdin, i
+                        #p.stdin.flush()
+                        print p.stdout.readline(),
+                    #p = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE)
                     #q = Popen(data, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
-                    clientsocket.send(''.join([line for line in p.stdout.xreadlines()]))
-                    output = p.stdout
+                    for line in p.stdout:
+                        #line = line.rstrip()
+                        #print line
+                        if line == '' or line == None:
+                            clientsocket.sendall("EMPTY")
+                            print "EMPTY"
+                        else:
+                            clientsocket.sendall(line)
+                            print line
+                    #print p.stdout
+                    #clientsocket.sendall(''.join([line for line in p.stdout.xreadlines()]))
+                    #output = p.stdout
                     #clientsocket.sendall(output)
-                    print output
+                    #print output
                     #print action
 
 

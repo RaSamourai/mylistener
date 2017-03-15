@@ -43,23 +43,27 @@ class mytchatrecep(Thread):
                 #le 255 definit le nombre de caracteres envoye en une seule fois
                 if data != '':
                     print '\nRecu : "%s"' % data
-                    p = Popen([data], stdin=PIPE, stdout=PIPE, bufsize=1)
-                    print p.stdout.readline(), # read the first line
-                    for i in range(10):
-                        print >>p.stdin, i
+                    #p = Popen([data], stdin=PIPE, stdout=PIPE, bufsize=1)
+                    #print p.stdout.readline(), # read the first line
+                    #for i in range(10):
+                        #print >>p.stdin, i
                         #p.stdin.flush()
-                        print p.stdout.readline(),
-                    #p = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE)
+                        #print p.stdout.readline(),
+                    result = []
+                    p = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE)
                     #q = Popen(data, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
                     for line in p.stdout:
-                        #line = line.rstrip()
-                        #print line
-                        if line == '' or line == None:
-                            clientsocket.sendall("EMPTY")
-                            print "EMPTY"
-                        else:
+                        line = line.rstrip()
+                        print line
+                        if line != '':
                             clientsocket.sendall(line)
-                            print line
+                            #clientsocket.sendall("EMPTY\n")
+                            #print "EMPTY"
+                        #else:
+                            #clientsocket.sendall(line)
+                            #result.append(line)
+                            #print line
+                    #print result
                     #print p.stdout
                     #clientsocket.sendall(''.join([line for line in p.stdout.xreadlines()]))
                     #output = p.stdout

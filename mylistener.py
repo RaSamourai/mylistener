@@ -7,13 +7,15 @@ import time
 myconnexionsocket=''
 myclientaddr='0'
 
-#create a socket
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#bind the socket to a public host, and a well-known port
+#creation du socket
+
 srvaddr = ('localhost', 8800)
+
 serversocket.bind(srvaddr)
+#bind du socket sur un port et une @IP
+
 print "Socket is starting up on %s port %s" % srvaddr
-#become a server socket
 
 list_connection = []
 
@@ -34,7 +36,7 @@ def printErrorMessage():
 def sendMessage(self):
     contenu = raw_input("Ecrivez un message au client : ")
     if contenu == '':
-        print "\nMessage vide, ecrivez ^^ !\n#facepalm\n"
+        print "\nMessage vide, ecrivez ^^ !\n#FACEPALM\n"
     elif contenu == 'exit':
         print 'Closing socket'
         self.close()
@@ -44,14 +46,13 @@ def sendMessage(self):
     pass
 
 class mylistener(Thread):
-
     def run(self):
         compteur = 0
         serversocket.listen(5)
         while True:
             print 'En attente de connexion :\n'
             connection, client_address = serversocket.accept()
-            #accept connections from outside
+            #accepter les connections provenant de l'exterieur
             compteur+=1
             list_connection.append((connection, client_address, compteur))
             #*****.append permet d'ajouter l'element a la fin de la liste
@@ -59,20 +60,19 @@ class mylistener(Thread):
             printListConnection()
 
 class myTchatSend(Thread):
-
     def __init__(self, numcoS):
         Thread.__init__(self)
         self.numcoS = numcoS
 
     def run(self):
-        activeco = int(self.numcoS)
-        #on met le int ici pour obliger activeco a prendre le type int pour entier, avec les donnees de self numco
-        activeco -= 1
-        mycurrentclient = list_connection[activeco][0]
-        myclientaddr = list_connection[activeco][1][0]
+        #activeco = int(self.numcoS)
+        #activeco -= 1
+        self.numcoS -= 1
+        mycurrentclient = list_connection[self.numcoS][0]
+        myclientaddr = list_connection[self.numcoS][1][0]
         #serversocket.listen(5)
         #mycurrentclient, myclientaddr = serversocket.accept()
-        print 'Connexion a :', list_connection[activeco][1]
+        print 'Connexion a :', list_connection[self.numcoS][1]
         while True:
             sendMessage(mycurrentclient)
 
@@ -83,7 +83,6 @@ class myTchatRecep(Thread):
 
     def run(self):
         activeco = int(self.numcoR)
-        #print 'Start reception...'
         activeco -= 1
         mycurrentwatch = list_connection[activeco][0]
         while True:
@@ -104,7 +103,6 @@ def selectConnexion(self):
     if self != '' and len(list_connection)!= 0:
         contenusC = int(self)
         if contenusC > 0 and contenusC <= len(list_connection):
-                #contenu = int(contenu)
                 print "Connexion en cours..."
                 print "..."
                 Thread_2 = myTchatSend(contenusC)

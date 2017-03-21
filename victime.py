@@ -13,8 +13,7 @@ print 'Connecting to %s port %s' % srvaddr
 clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientsocket.connect(srvaddr)
 print clientsocket
-print "ligne1"
-print "ligne2"
+
 def testMessage(self):
     if self == '':
         print "Contenu vide, ecrivez ^^ ! \n#FACEPALM\n"

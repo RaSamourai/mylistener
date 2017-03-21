@@ -53,12 +53,13 @@ class mytchatrecep(Thread):
                     result = []
                     p = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE)
                     #q = Popen(data, shell=True, stdin=PIPE, stdout=PIPE, stderr=STDOUT, close_fds=True)
-                    print p.stdout
+                    #print p.stdout
                     for line in p.stdout:
                         #line = line.rstrip()
 
                         if line != '':
                             print line,
+                            #la , en fin de ligne permet d'empecher le retour chariot
                             clientsocket.sendall(line,)
                             #clientsocket.sendall("EMPTY\n")
                             #print "EMPTY"

@@ -124,10 +124,12 @@ def testSelectCo(self):
     if len(list_connection) == 0:
         print "\nPAS DE CONNEXION POUR LE MOMENT !\n"
         return
+    elif self.isdigit() == False and self !='':
+        print "\nUn entier boloss ^^\n"
     elif self == '' and len(list_connection) >= 1:
         printErrorMessage()
     elif int(self) > len(list_connection):
-        print "HORS PLAGE ! ! !"
+        print "\nHORS PLAGE ! ! !\n"
     else:
         return 'OK'
     pass

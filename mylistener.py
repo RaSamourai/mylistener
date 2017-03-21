@@ -96,7 +96,8 @@ class myTchatRecep(Thread):
                     Thread_3.join()
                     break
                 else:
-                    print 'Client : "%s"' % data
+                    #print '\nClient : "%s"' % data
+                    print data
             continue
 
 def selectConnexion(self):

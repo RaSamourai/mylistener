@@ -14,26 +14,21 @@ clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clientsocket.connect(srvaddr)
 print clientsocket
 
-def testMessage(self):
-    if self == '':
-        print "Contenu vide, ecrivez ^^ ! \n#FACEPALM\n"
-    else:
-        if self == 'exit':
-            clientsocket.sendall(self)
-            print 'Closing socket'
-            clientsocket.close()
-        else:
-            clientsocket.sendall(self)
-            print "Message envoye, en attente de reponses...\n"
-            #clientsocket.send(''.join([line for line in p.stdout.xreadlines()]))
-            #print "Traitement OK !"
-    pass
-
 def sendMessage():
-    contenu = raw_input("Saisir le texte a afficher sur le SRV : \nEXIT pour quitter\n")
-    testMessage(contenu)
+    contenu = raw_input("Entrer CMD : ")
+    if contenu == '':
+        print "\nMessage vide, ecrivez ^^ !\n#FACEPALM\n"
+        return True
+    elif contenu == 'exit':
+        print 'Closing socket'
+        thread_2.mycurrentclient.close()
+        thread_3.mycurrentwatch.close()
+        return False
+    else:
+        clientsocket.sendall(contenu)
+        print "SENDED\n"
+        return True
     pass
-
 
 class mytchatrecep(Thread):
 
@@ -42,7 +37,7 @@ class mytchatrecep(Thread):
                 data = clientsocket.recv(255)
                 #le 255 definit le nombre de caracteres envoye en une seule fois
                 if data != '':
-                    print 'Recu : "%s"' % data
+                    print '\nRecu : "%s"' % data
                     #p = Popen([data], stdin=PIPE, stdout=PIPE, bufsize=1)
                     #print p.stdout.readline(), # read the first line
                     #for i in range(10):

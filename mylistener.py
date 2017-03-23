@@ -114,7 +114,7 @@ def selectConnexion(self):
         #if contenusC > 0 and contenusC <= len(list_connection):
     print "Connexion en cours..."
     print "..."
-    Thread_2 = myTchatSend(self).start()
+    Thread_2 = myTchatSend(self)
     #time.sleep(0.01)
     Thread_3 = myTchatRecep(self)
     print "..."

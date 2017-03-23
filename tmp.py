@@ -54,6 +54,7 @@ class MyTchatSend(Thread):
     def run(self):
         activeco = int(self.numcoS)
         activeco -= 1
+
         #serversocket.listen(5)
         #mycurrentclient, myclientaddr = serversocket.accept()
         print activeco
@@ -67,7 +68,35 @@ class MyTchatSend(Thread):
             #self.mycurrentclient.sendall(contenu)
             #print "SENDED\n"
 ###########################################################################################################################################
-def sendMessage(self):
+def printListConnection():
+    print "\n######################"
+    print "Liste des connexions :"
+    for i in range (0,len(list_connection)):
+        print list_connection[i][1], " num :", i+1
+    print "Nombre de connexion total :",len(list_connection)
+    print "######################\n"
+    pass
+
+def printErrorMessage():
+    printListConnection()
+    print "Merci de formuler un choix FDP ^^ !\n"
+    pass
+
+def TestSelectCo(self):
+    if len(list_connection) == 0:
+        print "\nPAS DE CONNEXION POUR LE MOMENT !\n"
+        return
+    elif self == '' and len(list_connection) >= 1:
+        printErrorMessage()
+    elif self.isdigit() == False and self !='':
+        print "\nUn entier boloss ^^\n"
+    elif int(self) > len(list_connection) or int(self) == 0:
+        print "\nHORS PLAGE ! ! !\n"
+    else:
+        return True
+    pass
+
+def SendMessage(self):
     contenu = raw_input("Entrer CMD : ")
     if contenu == '':
         print "\nMessage vide, ecrivez ^^ !\n#FACEPALM\n"
@@ -82,15 +111,6 @@ def sendMessage(self):
         print "SENDED\n"
         return True
     pass
-
-def printListConnection():
-    print "\n######################"
-    print "Liste des connexions :"
-    for i in range (0,len(list_connection)):
-        print list_connection[i][1], " num :", i+1
-    print "Nombre de connexion total :",len(list_connection)
-    print "######################\n"
-    pass
 ###########################################################################################################################################
 myconnexionsocket=''
 myclientaddr='0'
@@ -101,20 +121,31 @@ print "Socket is starting up on %s port %s" % srvaddr
 list_connection = []
 thread_1 = MyListener()
 thread_1.start()
-contenu = raw_input('Saisi un chiffre =)')
-contenu = int(contenu)
-thread_2 = MyTchatSend(contenu)
-thread_2.start()
-print "HERE  MOFOS ! ! !"
-print thread_2.mycurrentclient
-print "HERE  MOFOS ! ! !"
-thread_3 = MyTchatRecep(contenu)
-thread_3.start()
-ok=True
-while ok == True:
-    ok=sendMessage(thread_2.mycurrentclient)
-    print ok
-    if ok == False:
-        print "LOOP HAS ENDED ! ! !"
-        print ok
+
+while True:
+    ok0=False
+    while ok0 != True:
+        contenu = raw_input("Saisir le numero de la connexion sur laquelle se connecter : ")
+        ok0 = TestSelectCo(contenu)
+        print ok0
+        if ok0 == True:
+            contenu = int(contenu)
+            thread_2 = MyTchatSend(contenu)
+            thread_2.start()
+            thread_3 = MyTchatRecep(contenu)
+            thread_3.start()
+        else:
+            continue
+
+    ok1=True
+    while ok1 == True:
+        ok1 = SendMessage(thread_2.mycurrentclient)
+
+        continue
+
+    #ok=sendMessage(thread_2.mycurrentclient)
+    #print ok
+    #if ok == False:
+        #print "LOOP HAS ENDED ! ! !"
+        #print ok
 #sendMessage(thread_2.mycurrentclient)

@@ -3,39 +3,28 @@ import SocketServer
 import sys
 from threading import Thread
 import time
-###########################################################################################################################################
-class MyListener(Thread):
+from connection import Connection
+from listener import MyListener
 
-    def run(self):
-        compteur = 0
-        serversocket.listen(5)
-        while True:
-            print 'En attente de connexion :\n'
-            connection, client_address = serversocket.accept()
-            #accepter les connections provenant de l'exterieur
-            compteur+=1
-            list_connection.append((connection, client_address, compteur))
-            #*****.append permet d'ajouter l'element a la fin de la liste
-            print '\n\nNouvelle connexion etablie depuis :', list_connection[-1][1]
-            printListConnection()
+###########################################################################################################################################
 
 class MyTchatRecep(Thread):
 
     def __init__(self, numcoR):
         Thread.__init__(self)
         self.numcoR = numcoR
-        self.mycurrentwatch = list_connection[numcoR-1][0]
+        self.mycurrentconnection = list_connection[numcoR-1]
 
     def run(self):
         activeco = int(self.numcoR)
         activeco -= 1
         while True:
-            data = self.mycurrentwatch.recv(255)
+            data = self.mycurrentconnection.connection.recv(255)
             #le 255 definit le nombre de caracteres envoye en une seule fois
             if data != '':
                 if data == 'exit':
                     print "Connexion closed"
-                    mycurrentwatch.close()
+                    self.mycurrentconnection.connection.close()
                     Thread_3.join()
                     break
                 else:
@@ -48,7 +37,7 @@ class MyTchatSend(Thread):
     def __init__(self, numcoS):
         Thread.__init__(self)
         self.numcoS = numcoS
-        self.mycurrentclient = list_connection[numcoS-1][0]
+        self.mycurrentclient = list_connection[numcoS-1]
         self.myclientaddr = list_connection[numcoS-1][1][0]
 
     def run(self):
@@ -103,8 +92,8 @@ def SendMessage(self):
         return True
     elif contenu == 'exit':
         print 'Closing socket'
-        thread_2.mycurrentclient.close()
-        thread_3.mycurrentwatch.close()
+        thread_2.mycurrentclient.connection.close()
+        thread_3.mycurrentwatch.connection.close()
         return False
     else:
         self.sendall(contenu)
@@ -114,10 +103,7 @@ def SendMessage(self):
 ###########################################################################################################################################
 myconnexionsocket=''
 myclientaddr='0'
-serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-srvaddr = ('localhost', 8800)
-serversocket.bind(srvaddr)
-print "Socket is starting up on %s port %s" % srvaddr
+print "Socket is starting up on localhost port 8800"
 list_connection = []
 thread_1 = MyListener()
 thread_1.start()
@@ -125,14 +111,14 @@ thread_1.start()
 while True:
     ok0=False
     while ok0 != True:
-        contenu = raw_input("Saisir le numero de la connexion sur laquelle se connecter : ")
-        ok0 = TestSelectCo(contenu)
+        numCoString = raw_input("Saisir le numero de la connexion sur laquelle se connecter : ")
+        ok0 = TestSelectCo(numCoString)
         print ok0
         if ok0 == True:
-            contenu = int(contenu)
-            thread_2 = MyTchatSend(contenu)
+            numCoString = int(numCoString)
+            thread_2 = MyTchatSend(numCoString)
             thread_2.start()
-            thread_3 = MyTchatRecep(contenu)
+            thread_3 = MyTchatRecep(numCoString)
             thread_3.start()
         else:
             continue

@@ -2,7 +2,10 @@ import socket
 import SocketServer
 from threading import Thread
 
-'''list_connection = []'''
+
+
+'''list_connection = []
+http://epydoc.sourceforge.net/stdlib/socket._socketobject-class.html#proto'''
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 srvaddr = ('localhost', 8800)
 serversocket.bind(srvaddr)

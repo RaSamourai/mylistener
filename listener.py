@@ -2,6 +2,7 @@ import socket
 import SocketServer
 from threading import Thread
 
+'''list_connection = []'''
 serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 srvaddr = ('localhost', 8800)
 serversocket.bind(srvaddr)
@@ -21,3 +22,11 @@ class MyListener(Thread):
             print '\n\nNouvelle connexion etablie depuis :', list_connection[-1][1]
 
             printListConnection()
+        '''
+    def getListConnection(self):
+        return list_connection
+
+    def setListConnection(self, connectionList):
+        if connectionList is None:
+            self.list_connection = connectionList
+'''

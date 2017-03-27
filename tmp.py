@@ -7,7 +7,6 @@ from connection import Connection
 from listener import MyListener
 
 ###########################################################################################################################################
-
 class MyTchatRecep(Thread):
 
     def __init__(self, numcoR):
@@ -43,19 +42,10 @@ class MyTchatSend(Thread):
     def run(self):
         activeco = int(self.numcoS)
         activeco -= 1
-
         #serversocket.listen(5)
         #mycurrentclient, myclientaddr = serversocket.accept()
         print activeco
         print 'Connexion a :', list_connection[activeco][1]
-        #contenu = raw_input("Ecrivez un message au client : ")
-        #if contenu == 'exit':
-            #print 'Closing socket'
-            #thread_2.mycurrentclient.close()
-            #thread_3.mycurrentwatch.close()
-        #else:
-            #self.mycurrentclient.sendall(contenu)
-            #print "SENDED\n"
 ###########################################################################################################################################
 def printListConnection():
     print "\n######################"
